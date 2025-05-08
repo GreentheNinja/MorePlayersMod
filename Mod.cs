@@ -52,33 +52,33 @@ namespace GreentheNinja.MorePlayersMod
                     // check if -3 is ldc.i4.2
                     // check if -2 is stloc.s 19
                     // check if -1 is br IL_0b95
-                    if (instructionList[instructionList.Count - 6].opcode != OpCodes.Ldloc_S)
+                    if (instructionList[^6].opcode != OpCodes.Ldloc_S)
                     {
                         continue;
                     }
-                    if (instructionList[instructionList.Count - 5].opcode != OpCodes.Ldc_I4_4)
+                    if (instructionList[^5].opcode != OpCodes.Ldc_I4_4)
                     {
                         continue;
                     }
-                    if (instructionList[instructionList.Count - 4].opcode != OpCodes.Blt_S)
+                    if (instructionList[^4].opcode != OpCodes.Blt_S)
                     {
                         continue;
                     }
-                    if (instructionList[instructionList.Count - 3].opcode != OpCodes.Ldc_I4_2)
+                    if (instructionList[^3].opcode != OpCodes.Ldc_I4_2)
                     {
                         continue;
                     }
-                    if (instructionList[instructionList.Count - 2].opcode != OpCodes.Stloc_S)
+                    if (instructionList[^2].opcode != OpCodes.Stloc_S)
                     {
                         continue;
                     }
-                    if (instructionList[instructionList.Count - 1].opcode != OpCodes.Br)
+                    if (instructionList[^1].opcode != OpCodes.Br)
                     {
                         continue;
                     }
                     Instance?.Logger.LogInformation("Found lobby player limit check from indexes {start} to {end}", instructionList.Count - 6, instructionList.Count - 1);
                     var replacementInstruction = new CodeInstruction(OpCodes.Ldc_I4_S, 100);
-                    instructionList[instructionList.Count - 5] = replacementInstruction;
+                    instructionList[^5] = replacementInstruction;
                     foundReplacement = true;
                 }
             }
