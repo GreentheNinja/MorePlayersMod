@@ -4,6 +4,7 @@ using SoG;
 using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
+using Microsoft.Xna.Framework;
 using Microsoft.Extensions.Logging;
 
 
@@ -148,7 +149,24 @@ namespace GreentheNinja.MorePlayersMod
         public static IEnumerable<CodeInstruction> ShieldPracticeInArenaOnAddTranspiler(IEnumerable<CodeInstruction> instructions)
         {
             var matcher = new CodeMatcher(instructions);
+            // do this whenever we find and remove the above line
+            /*
+            matcher.Insert(
+                CodeInstruction.Call(
+                    (TransformComponent transform, Dictionary<byte, Vector2> playerPositions, byte playerNumber) =>
+                    ShieldPracticeTransformSetter(transform, playerPositions, playerNumber)
+                )
+            );
+            */
             return matcher.Instructions();
+        }
+        
+        public static void ShieldPracticeTransformSetter(TransformComponent transform, Dictionary<byte, Vector2> playerPositions, byte playerNumber)
+        {
+            if (playerPositions.ContainsKey(playerNumber))
+            {
+                transform.SetBoth(playerPositions[playerNumber]);
+            }
         }
     }
 }
