@@ -14,16 +14,16 @@ namespace GreentheNinja.MorePlayersMod
     {
         public override string Name => "MorePlayersMod";
         public override System.Version Version => new (0, 0, 1);
-
+        
         public static MorePlayersMod Instance { get; private set; }
-
+        
         public bool Enabled { get; private set; } = true;
-
+        
         public override void Load()
         {
             Instance = this;
         }
-
+        
         public override void Unload()
         {
             Instance = null;
@@ -102,8 +102,31 @@ namespace GreentheNinja.MorePlayersMod
         {
             var matcher = new CodeMatcher(instructions);
             matcher.MatchStartForward(
-                new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(Game1), nameof(Game1.dixPlayers))),
-                new CodeMatch(OpCodes.Callvirt, AccessTools.Method(typeof(Dictionary<long, PlayerView>), nameof(Dictionary<long, PlayerView>.Count)))
+                    new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(Game1), nameof(Game1.dixPlayers))),
+                    new CodeMatch(OpCodes.Callvirt, AccessTools.Method(typeof(Dictionary<long, PlayerView>), nameof(Dictionary<long, PlayerView>.Count)))
+                )
+                .Repeat(
+                    cm => {
+                        cm.Advance(2);
+                        cm.Insert(
+                            new CodeInstruction(OpCodes.Ldc_I4_4),
+                            CodeInstruction.Call(typeof(Math), nameof(Math.Min), new Type[2] {typeof(int), typeof(int)})
+                        );
+                    }
+                );
+            return matcher.Instructions();
+        }
+        
+        // We need a bit of special logic here as opposed to ClampPlayerCountChecks, since we only want to touch the comparisons to the total player count.
+        [HarmonyPatch(typeof(Game1), nameof(Game1._Trigger_HandleTriggerEvent), new Type[2] {typeof(FlagCodex.FlagID), typeof(byte)})]
+        [HarmonyTranspiler()]
+        public static IEnumerable<CodeInstruction> Game1_Trigger_HandleTriggerEventTranspiler(IEnumerable<CodeInstruction> instructions)
+        {
+            var matcher = new CodeMatcher(instructions);
+            matcher.MatchStartForward(
+                    new CodeMatch(OpCodes.Ldfld, AccessTools.Field(typeof(Game1), nameof(Game1.dixPlayers))),
+                    new CodeMatch(OpCodes.Callvirt, AccessTools.Method(typeof(Dictionary<long, PlayerView>), nameof(Dictionary<long, PlayerView>.Count))),
+                    new CodeMatch(OpCodes.Blt)
                 )
                 .Repeat(
                     cm => {
