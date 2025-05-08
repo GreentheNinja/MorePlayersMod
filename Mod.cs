@@ -139,5 +139,16 @@ namespace GreentheNinja.MorePlayersMod
                 );
             return matcher.Instructions();
         }
+        
+        // Mostly, all we need to do is prevent this line from firing for players 5+:
+        //      xView.xEntity.xTransform.SetBoth(dxxPlayerPositions[byPlayNum]);
+        // After that, I guess we'll see what happens?
+        [HarmonyPatch(typeof(Bagmen.ShieldPracticeInArena), nameof(Bagmen.ShieldPracticeInArena.OnAdd))]
+        [HarmonyTranspiler()]
+        public static IEnumerable<CodeInstruction> ShieldPracticeInArenaOnAddTranspiler(IEnumerable<CodeInstruction> instructions)
+        {
+            var matcher = new CodeMatcher(instructions);
+            return matcher.Instructions();
+        }
     }
 }
