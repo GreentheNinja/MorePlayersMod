@@ -38,7 +38,7 @@
         </Reference>
 	</ItemGroup>
 
-	<!-- <Target Name="PostBuild" AfterTargets="PostBuildEvent"> -->
-		<!-- <Exec Command="python ./Scripts/install.py" /> -->
-	<!-- </Target> -->
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="python ./Scripts/install.py" />
+	</Target>
 </Project>
