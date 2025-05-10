@@ -38,4 +38,3 @@ if sog_install_path is not None:
 		pass
 	shutil.copyfile(output_path + 'MorePlayersMod.dll', sog_install_path + 'ModBagmanData/Mods/MorePlayersMod.dll')
 	print('Installed MorePlayersMod.')
-exit(0)
