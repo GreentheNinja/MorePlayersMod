@@ -1,35 +1,17 @@
 using HarmonyLib;
-using ModBagman;
+using Microsoft.Xna.Framework;
 using SoG;
 using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
-using Microsoft.Xna.Framework;
-using Microsoft.Extensions.Logging;
 
 
 namespace GreentheNinja.MorePlayersMod
 {
+    [BepInEx.BepInPlugin("GreentheNinja.MorePlayersMod", "More Players Mod", "0.0.1")]
     [HarmonyPatch]
-    public class MorePlayersMod : Mod
+    public class MorePlayersMod
     {
-        public override string Name => "MorePlayersMod";
-        public override System.Version Version => new (0, 0, 1);
-        
-        public static MorePlayersMod Instance { get; private set; }
-        
-        public bool Enabled { get; private set; } = true;
-        
-        public override void Load()
-        {
-            Instance = this;
-        }
-        
-        public override void Unload()
-        {
-            Instance = null;
-        }
-        
         [HarmonyPatch(typeof(Game1), nameof(Game1._Network_ParseClientMessage))]
         [HarmonyTranspiler()]
 	    public static IEnumerable<CodeInstruction> LobbySizeLimitTranspiler(IEnumerable<CodeInstruction> instructions)
@@ -52,40 +34,40 @@ namespace GreentheNinja.MorePlayersMod
                     // check if -3 is ldc.i4.2
                     // check if -2 is stloc.s 19
                     // check if -1 is br IL_0b95
-                    if (instructionList[^6].opcode != OpCodes.Ldloc_S)
+                    if (instructionList[instructionList.Count - 6].opcode != OpCodes.Ldloc_S)
                     {
                         continue;
                     }
-                    if (instructionList[^5].opcode != OpCodes.Ldc_I4_4)
+                    if (instructionList[instructionList.Count - 5].opcode != OpCodes.Ldc_I4_4)
                     {
                         continue;
                     }
-                    if (instructionList[^4].opcode != OpCodes.Blt_S)
+                    if (instructionList[instructionList.Count - 4].opcode != OpCodes.Blt_S)
                     {
                         continue;
                     }
-                    if (instructionList[^3].opcode != OpCodes.Ldc_I4_2)
+                    if (instructionList[instructionList.Count - 3].opcode != OpCodes.Ldc_I4_2)
                     {
                         continue;
                     }
-                    if (instructionList[^2].opcode != OpCodes.Stloc_S)
+                    if (instructionList[instructionList.Count - 2].opcode != OpCodes.Stloc_S)
                     {
                         continue;
                     }
-                    if (instructionList[^1].opcode != OpCodes.Br)
+                    if (instructionList[instructionList.Count - 1].opcode != OpCodes.Br)
                     {
                         continue;
                     }
-                    Instance?.Logger.LogInformation("Found lobby player limit check from indexes {start} to {end}", instructionList.Count - 6, instructionList.Count - 1);
+                    // Instance?.Logger.LogInformation("Found lobby player limit check from indexes {start} to {end}", instructionList.Count - 6, instructionList.Count - 1);
                     var replacementInstruction = new CodeInstruction(OpCodes.Ldc_I4_S, 100);
-                    instructionList[^5] = replacementInstruction;
+                    instructionList[instructionList.Count - 5] = replacementInstruction;
                     foundReplacement = true;
                 }
             }
             
             if (!foundReplacement)
             {
-                Instance?.Logger.LogWarning("Did not find lobby player limit check");
+                // Instance?.Logger.LogWarning("Did not find lobby player limit check");
             }
             
             return instructionList;

@@ -33,8 +33,8 @@ output_path = '../bin/Debug/net472/'
 
 if sog_install_path is not None:
 	try:
-		os.mkdir(sog_install_path + 'ModBagmanData/Mods')
+		os.mkdir(sog_install_path + 'BepInEx/plugins')
 	except:
 		pass
-	shutil.copyfile(output_path + 'MorePlayersMod.dll', sog_install_path + 'ModBagmanData/Mods/MorePlayersMod.dll')
+	shutil.copyfile(output_path + 'MorePlayersMod.dll', sog_install_path + 'BepInEx/plugins/MorePlayersMod.dll')
 	print('Installed MorePlayersMod.')
