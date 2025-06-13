@@ -4,7 +4,7 @@
 		<AssemblyName>MorePlayersMod</AssemblyName>
 		<Description>A multiplayer cap enhancement for Secrets of Grindea</Description>
 		<Version>0.0.1</Version>
-		<TargetFramework>net40</TargetFramework>
+		<TargetFramework>net452</TargetFramework>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		
 		<LangVersion>11.0</LangVersion>
