@@ -2,43 +2,56 @@
 	<PropertyGroup>
 		<RootNamespace>GreentheNinja.MorePlayersMod</RootNamespace>
 		<AssemblyName>MorePlayersMod</AssemblyName>
-		<TargetFramework>net472</TargetFramework>
-
+		<TargetFramework>net40</TargetFramework>
+        
 		<LangVersion>11.0</LangVersion>
-
+        
 		<PlatformTarget>x86</PlatformTarget>
 		<Platforms>x86</Platforms>
 		<OutputType>Library</OutputType>
+		<RestoreAdditionalProjectSources>
+			https://api.nuget.org/v3/index.json;
+			https://nuget.bepinex.dev/v3/index.json;
+			https://nuget.samboy.dev/v3/index.json
+		</RestoreAdditionalProjectSources>
 	</PropertyGroup>
 	
 	<ItemGroup>
-        <Reference Include="Harmony">
-          <HintPath>..\Dependency\0Harmony.dll</HintPath>
-        </Reference>
-        <Reference Include="BepInEx.Core">
-          <HintPath>..\Dependency\BepInEx.Core.dll</HintPath>
-        </Reference>
-        <Reference Include="BepInEx.NET.Common">
-          <HintPath>..\Dependency\BepInEx.NET.Common.dll</HintPath>
-        </Reference>
-        <Reference Include="BepInEx.NET.Framework.Launcher">
-          <HintPath>..\Dependency\BepInEx.NET.Framework.Launcher.dll</HintPath>
-        </Reference>
-        <Reference Include="Microsoft.Xna.Framework">
-          <HintPath>..\Dependency\Microsoft.Xna.Framework.dll</HintPath>
-        </Reference>
-        <Reference Include="Microsoft.Xna.Framework.Game">
-          <HintPath>..\Dependency\Microsoft.Xna.Framework.Game.dll</HintPath>
-        </Reference>
-        <Reference Include="Microsoft.Xna.Framework.Graphics">
-          <HintPath>..\Dependency\Microsoft.Xna.Framework.Graphics.dll</HintPath>
-        </Reference>
-        <Reference Include="Microsoft.Xna.Framework.Xact">
-          <HintPath>..\Dependency\Microsoft.Xna.Framework.Xact.dll</HintPath>
-        </Reference>
-        <Reference Include="Secrets Of Grindea">
-          <HintPath>..\Dependency\Secrets Of Grindea.exe</HintPath>
-        </Reference>
+		<Reference Include="Harmony">
+		  <HintPath>..\Dependency\0Harmony.dll</HintPath>
+		</Reference>
+		<Reference Include="BepInEx.Core">
+		  <HintPath>..\Dependency\BepInEx.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="BepInEx.NET.Common">
+		  <HintPath>..\Dependency\BepInEx.NET.Common.dll</HintPath>
+		</Reference>
+		<Reference Include="BepInEx.NET.Framework.Launcher">
+		  <HintPath>..\Dependency\BepInEx.NET.Framework.Launcher.dll</HintPath>
+		</Reference>
+		<Reference Include="Microsoft.Xna.Framework">
+		  <HintPath>..\Dependency\Microsoft.Xna.Framework.dll</HintPath>
+		</Reference>
+		<Reference Include="Microsoft.Xna.Framework.Game">
+		  <HintPath>..\Dependency\Microsoft.Xna.Framework.Game.dll</HintPath>
+		</Reference>
+		<Reference Include="Microsoft.Xna.Framework.Graphics">
+		  <HintPath>..\Dependency\Microsoft.Xna.Framework.Graphics.dll</HintPath>
+		</Reference>
+		<Reference Include="Microsoft.Xna.Framework.Xact">
+		  <HintPath>..\Dependency\Microsoft.Xna.Framework.Xact.dll</HintPath>
+		</Reference>
+		<Reference Include="Secrets Of Grindea">
+		  <HintPath>..\Dependency\Secrets Of Grindea.exe</HintPath>
+		</Reference>
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="BepInEx.NET.Framework.Launcher" Version="6.0.0-be.*" IncludeAssets="compile" />
+		<PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
+	</ItemGroup>
+	
+	<ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
+	<PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">

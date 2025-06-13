@@ -29,7 +29,7 @@ if sog_install_path is not None:
 else:
 	print('Couldn\'t find SoG install path. Skipping...')
 	
-output_path = '../bin/Debug/net472/'
+output_path = '../bin/Debug/net40/'
 
 if sog_install_path is not None:
 	try:
