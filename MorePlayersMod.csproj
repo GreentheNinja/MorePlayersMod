@@ -2,18 +2,16 @@
 	<PropertyGroup>
 		<RootNamespace>GreentheNinja.MorePlayersMod</RootNamespace>
 		<AssemblyName>MorePlayersMod</AssemblyName>
+		<Description>A multiplayer cap enhancement for Secrets of Grindea</Description>
+		<Version>0.0.1</Version>
 		<TargetFramework>net40</TargetFramework>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		
 		<LangVersion>11.0</LangVersion>
 		
 		<PlatformTarget>x86</PlatformTarget>
 		<Platforms>x86</Platforms>
 		<OutputType>Library</OutputType>
-		<RestoreAdditionalProjectSources>
-			https://api.nuget.org/v3/index.json;
-			https://nuget.bepinex.dev/v3/index.json;
-			https://nuget.samboy.dev/v3/index.json
-		</RestoreAdditionalProjectSources>
 	</PropertyGroup>
 	
 	<ItemGroup>
@@ -35,14 +33,14 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="BepInEx.NET.Framework.Launcher" Version="6.0.0-be.*" IncludeAssets="compile" />
-		<PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
+		<PackageReference Include="BepInEx.NetLauncher" Version="6.0.0-*" IncludeAssets="compile" />
+		<PackageReference Include="BepInEx.PluginInfoProps" Version="1.*" />
 	</ItemGroup>
 	
 	<ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
 		<PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
 	</ItemGroup>
-
+	
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 		<Exec Command="python ./Scripts/install.py" />
 	</Target>
